@@ -10,10 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IntentExplicit">
         <activity
-            android:name=".Test"
-            android:exported="true" >
-        </activity>
-        <activity
             android:name=".GalleryImageActivity"
             android:exported="false" />
         <activity
