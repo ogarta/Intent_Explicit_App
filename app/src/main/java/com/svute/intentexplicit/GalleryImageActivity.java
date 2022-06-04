@@ -16,10 +16,8 @@ import java.util.ArrayList;
 public class GalleryImageActivity extends AppCompatActivity {
     private TableLayout tableLayout;
     private double numImage = 17;
-    private int numRow, numImageNow = 0;
+    private int numRow, numImageNow, resourceImage = 0;
     String[] arrNameImages;
-    String idImage;
-    String imgGet;
     ArrayList<ImageView> imageArrayList = new ArrayList<>();
 
     @Override
@@ -32,12 +30,12 @@ public class GalleryImageActivity extends AppCompatActivity {
         //Tính số hàng cần tạo kết quả làm tròn lên: 2.3->3
         numRow = (int) Math.ceil(numImage/3);
 
-        Intent intentGet = getIntent();
-        if(intentGet != null){
-            // Nhận vị trí index trong StringArr từ activity MainActivity: Hình đã RanDom lúc đầu
-            imgGet = intentGet.getStringExtra("imgRandomMain");
-
-        }
+//        Intent intentGet = getIntent();
+//        if(intentGet != null){
+//            // Nhận vị trí index trong StringArr từ activity MainActivity: Hình đã RanDom lúc đầu
+//            imgGet = intentGet.getStringExtra("imgRandomMain");
+//
+//        }
 
         for (int i = 0; i < numRow; i++) {
             // Tạo 1 hàng trong TableLayout
@@ -55,18 +53,15 @@ public class GalleryImageActivity extends AppCompatActivity {
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            // Gửi vị trí index trong StringArr từ activity GalleyImage: Hình đã RanDom lúc đầu và Hình vừa chọn
                             Intent intent = new Intent(GalleryImageActivity.this,MainActivity.class);
-                            // Lấy vị trí của image trong imageArrayList cũng là vị trí index trong StringArray của bức hình: imageArrayList.indexOf(imageView)
-                            intent.putExtra("imagePick",String.valueOf(imageArrayList.indexOf(imageView)));
-                            intent.putExtra("imgRandomMain",imgGet);
-                            startActivity(intent);
+                            intent.putExtra("imagePick",imageView.getTag().toString());
+                            setResult(RESULT_OK, intent);
                             finish();
                         }
                     });
-                    // Thêm imageView vào imageArrayList
-                    imageArrayList.add(imageView);
-                    imageView.setImageResource(getResources().getIdentifier(arrNameImages[numImageNow], "drawable", getPackageName()));
+                    resourceImage = getResources().getIdentifier(arrNameImages[numImageNow], "drawable", getPackageName());
+                    imageView.setTag(resourceImage);
+                    imageView.setImageResource(resourceImage);
                     //Thêm hình vào trong cột
                     tableRow.addView(imageView);
                     numImageNow++;
